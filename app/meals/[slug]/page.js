@@ -4,6 +4,18 @@ import classes from './page.module.css'
 import { notFound } from 'next/navigation'
 
 
+export async function generateMetadata({params}) {
+    const meal = getMeal(params.slug)
+
+    if(!meal) {
+        notFound();
+    }
+    
+    return {
+        title: meal.title,
+        description: meal.summary
+    };
+}
 
 export default function MealDynamicPage({params}) {
     const meal = getMeal(params.slug)
@@ -17,7 +29,7 @@ export default function MealDynamicPage({params}) {
     return <>
         <header className={classes.header}>
             <div className={classes.image}>
-                <Image src={meal.image} alt={meal.title} fill/>
+                <Image src={`https://mike-next-js-test.s3.eu-north-1.amazonaws.com/${meal.image}`} alt={meal.title} fill/>
             </div>
             <div className={classes.headerText}>
                 <h1>{meal.title}</h1>
